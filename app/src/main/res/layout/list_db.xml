@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="20dp"
+    android:layout_marginLeft="-1dp"
+    android:layout_marginRight="25dp"
+    android:layout_marginTop="25dp"
+    android:fontFamily="sans-serif-thin"
+    android:gravity="left"
+    android:orientation="horizontal">
+
+    <View
+        android:id="@+id/recView"
+        android:layout_width="5dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="4dp"
+         />
+
+    <TextView
+        android:id="@+id/timestamp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="2dp"
+        android:fontFamily="sans-serif-thin"
+        android:gravity="right"
+        android:text="time"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@android:color/background_light"
+        android:textSize="11sp" />
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="12dp"
+        android:layout_weight="1"
+        android:fontFamily="sans-serif-thin"
+        android:gravity="right"
+        android:text="date"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textSize="9sp" />
+
+    <TextView
+        android:id="@+id/ssid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_toEndOf="@+id/date"
+        android:layout_toRightOf="@+id/date"
+        android:layout_weight="1"
+        android:elevation="5dp"
+        android:fontFamily="sans-serif-thin"
+        android:gravity="right"
+        android:maxLines="1"
+        android:paddingLeft="20dp"
+        android:shadowColor="@android:color/darker_gray"
+        android:shadowDx="1"
+        android:shadowDy="1"
+        android:shadowRadius="1"
+        android:text="ssid"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@android:color/white"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/id_txt"
+        android:layout_width="49dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="left|right"
+        android:layout_marginLeft="-2dp"
+        android:layout_marginTop="-1dp"
+        android:fontFamily="sans-serif-thin"
+        android:gravity="right"
+        android:singleLine="true"
+        android:text="Medium Text"
+        android:textColor="@android:color/background_light"
+        android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/ssiddiv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/ssid"
+        android:layout_toRightOf="@+id/ssid"
+        android:text=":"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+</RelativeLayout>

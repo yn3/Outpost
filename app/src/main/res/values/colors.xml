@@ -1,0 +1,8 @@
+<resources>
+    <color name="fab_color_1">#D05353</color>
+    <color name="fab_color_1_muted">#ff8080</color>
+    <color name="fab_color_2">#CEA0AE</color>
+    <color name="fab_color_2_muted">#e8d2d9</color>
+    <color name="fab_color_3">#92A7E0</color>
+    <color name="fab_color_3_muted">#6F7EA8</color>
+</resources>

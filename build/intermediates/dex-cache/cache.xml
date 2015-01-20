@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="C:\_astudio\Outpost8\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
+        <dex dex="C:\_astudio\Outpost8\app\build\intermediates\pre-dexed\debug\classes-260f0e587bda744a4dcc578d5ca53568e99f5789.jar" />
+    </item>
+    <item
+        jar="C:\Users\andre\AppData\Local\Android\sdk1\extras\android\m2repository\com\android\support\support-annotations\21.0.3\support-annotations-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
+        <dex dex="C:\_astudio\aura_01\app\build\intermediates\pre-dexed\debug\support-annotations-21.0.3-fab1f13ff3c97aaf392c6e7000045394957be150.jar" />
+    </item>
+    <item
+        jar="C:\_astudio\Outpost6\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\21.0.3\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
+        <dex dex="C:\_astudio\Outpost6\app\build\intermediates\pre-dexed\debug\classes-afcfa8b8aae16f8a77220aebe5a55e81a790f7ab.jar" />
+    </item>
+    <item
+        jar="C:\_astudio\Outpost2\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\libs\internal_impl-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
+        <dex dex="C:\_astudio\Outpost2\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-d08bd8f1d74281659366d3f837330a5832a4d4de.jar" />
+    </item>
+    <item
+        jar="C:\_astudio\Outpost5\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
+        <dex dex="C:\_astudio\Outpost5\app\build\intermediates\pre-dexed\debug\classes-af2a14f9300674a1a2474d9900fa47a050a1a88a.jar" />
+    </item>
+    <item
+        jar="C:\_astudio\Outpost5\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\libs\internal_impl-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
+        <dex dex="C:\_astudio\Outpost5\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-605ce41ee45bc1028a9fb0033a070ddd7a080375.jar" />
+    </item>
+    <item
+        jar="C:\_astudio\Outpost8\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\21.0.3\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
+        <dex dex="C:\_astudio\Outpost8\app\build\intermediates\pre-dexed\debug\classes-e2c30a381754ad81ed2c0a818c8d7942ef622a20.jar" />
+    </item>
+    <item
+        jar="C:\_astudio\Outpost2\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\21.0.3\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
+        <dex dex="C:\_astudio\Outpost2\app\build\intermediates\pre-dexed\debug\classes-383854db5cb44274539fb247171f230151c2b399.jar" />
+    </item>
+    <item
+        jar="C:\_astudio\Outpost6\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\libs\internal_impl-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
+        <dex dex="C:\_astudio\Outpost6\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-ef05426339a007205de868405862f5fe41373689.jar" />
+    </item>
+    <item
+        jar="C:\_astudio\Outpost7\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\libs\internal_impl-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
+        <dex dex="C:\_astudio\Outpost7\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-348014abe9a4be1eb7e114ff29d8594164dfcdc3.jar" />
+    </item>
+    <item
+        jar="C:\_astudio\aura_01\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\21.0.3\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
+        <dex dex="C:\_astudio\aura_01\app\build\intermediates\pre-dexed\debug\classes-0f4b2f736ab7cbe7907bb0b7d6090a34d77c6ce7.jar" />
+    </item>
+    <item
+        jar="C:\_astudio\Outpost3\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\libs\internal_impl-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
+        <dex dex="C:\_astudio\Outpost3\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-122b0e68cc955758ae1eae479d300b1f9aeef89d.jar" />
+    </item>
+    <item
+        jar="C:\_astudio\Outpost2\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
+        <dex dex="C:\_astudio\Outpost2\app\build\intermediates\pre-dexed\debug\classes-2ce77aab4acb89b367ed3253d3f47ce9754bd1b9.jar" />
+    </item>
+    <item
+        jar="C:\_astudio\Outpost\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\21.0.3\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
+        <dex dex="C:\_astudio\Outpost\app\build\intermediates\pre-dexed\debug\classes-44af8e14bf9d4107a2fe38853f7a51f03061794e.jar" />
+    </item>
+    <item
+        jar="C:\Users\andre\.gradle\caches\modules-2\files-2.1\com.squareup.picasso\picasso\2.4.0\f36d2d4e3a36b3259aaf9d004d29b4cdc6c1bfb2\picasso-2.4.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="f36d2d4e3a36b3259aaf9d004d29b4cdc6c1bfb2">
+        <dex dex="C:\_astudio\aura_01\app\build\intermediates\pre-dexed\debug\picasso-2.4.0-2622b51c45e5c6b7b40f657146d35e62d67fe3ed.jar" />
+    </item>
+    <item
+        jar="C:\_astudio\Outpost7\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
+        <dex dex="C:\_astudio\Outpost7\app\build\intermediates\pre-dexed\debug\classes-7f015d72868dc42addac1d81f93422ba2a1ed3d8.jar" />
+    </item>
+    <item
+        jar="C:\_astudio\aura_01\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
+        <dex dex="C:\_astudio\aura_01\app\build\intermediates\pre-dexed\debug\classes-62feb4aa3334c0f75726768707e3f46acf0ef99c.jar" />
+    </item>
+    <item
+        jar="C:\_astudio\Outpost\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\libs\internal_impl-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
+        <dex dex="C:\_astudio\Outpost\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-3a8bb5403a99162ef0bf08ae6f41ca51a105622f.jar" />
+    </item>
+    <item
+        jar="C:\_astudio\Outpost\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
+        <dex dex="C:\_astudio\Outpost\app\build\intermediates\pre-dexed\debug\classes-b2873ad919c537637cd0173b28e7cc125a458d9f.jar" />
+    </item>
+    <item
+        jar="C:\_astudio\Outpost3\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
+        <dex dex="C:\_astudio\Outpost3\app\build\intermediates\pre-dexed\debug\classes-b130fc46d0f759faa15809131391f27167c21cfd.jar" />
+    </item>
+    <item
+        jar="C:\_astudio\Outpost4\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
+        <dex dex="C:\_astudio\Outpost4\app\build\intermediates\pre-dexed\debug\classes-c65a70d41b1b3cc4519297fbd813180834259baf.jar" />
+    </item>
+    <item
+        jar="C:\_astudio\Outpost4\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\libs\internal_impl-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
+        <dex dex="C:\_astudio\Outpost4\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-c4269d5aa45cb4786fca1b64715c5efe9f6e06ec.jar" />
+    </item>
+    <item
+        jar="C:\_astudio\Outpost5\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\21.0.3\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
+        <dex dex="C:\_astudio\Outpost5\app\build\intermediates\pre-dexed\debug\classes-9b37c4d284aa69c6ac703aac0d21498ec9555a6e.jar" />
+    </item>
+    <item
+        jar="C:\_astudio\Outpost6\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
+        <dex dex="C:\_astudio\Outpost6\app\build\intermediates\pre-dexed\debug\classes-c6cd8b248faa37987a23ac0c0cac771cff0e4488.jar" />
+    </item>
+    <item
+        jar="C:\_astudio\aura_01\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\libs\internal_impl-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
+        <dex dex="C:\_astudio\aura_01\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-322be6548020abcd512a6ae65f1cc2f393ab892d.jar" />
+    </item>
+    <item
+        jar="C:\_astudio\Outpost3\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\21.0.3\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
+        <dex dex="C:\_astudio\Outpost3\app\build\intermediates\pre-dexed\debug\classes-ebf03ecc8af084f7d1ec81770e9c6d5ff33f2f70.jar" />
+    </item>
+    <item
+        jar="C:\_astudio\Outpost4\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\21.0.3\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
+        <dex dex="C:\_astudio\Outpost4\app\build\intermediates\pre-dexed\debug\classes-5fac5300d2d457a15665554a8ee6f64f1913a99f.jar" />
+    </item>
+    <item
+        jar="C:\_astudio\Outpost7\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\21.0.3\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
+        <dex dex="C:\_astudio\Outpost7\app\build\intermediates\pre-dexed\debug\classes-5602ee8dc5f01c697941e3a97ca1b940a8022012.jar" />
+    </item>
+    <item
+        jar="C:\_astudio\Outpost8\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\libs\internal_impl-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
+        <dex dex="C:\_astudio\Outpost8\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-6fe8c460d2cdb802a621cb499f4e8082597682bf.jar" />
+    </item>
+
+</items>
