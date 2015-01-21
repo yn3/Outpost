@@ -41,7 +41,7 @@ public class f_Outpost extends Fragment {
     private int mWidth;
     private int mHeight;
     boolean scanning;
-    String[] mac;
+    int[] mac;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -118,7 +118,7 @@ public class f_Outpost extends Fragment {
 
 
         //hi.setText(String.valueOf(currDevices));
-        Log.w("",data[0]);
+
         out1.setText(data[0]);
         //arrayList.clear();
 
@@ -146,7 +146,7 @@ public class f_Outpost extends Fragment {
             paint.setColor(Color.WHITE);
             int cnt = 0;
 
-            clr = 5;
+            clr = 10;
             while (mRunning && !Thread.interrupted()) {
                 final Canvas canvas = view.lockCanvas(null);
 
@@ -171,14 +171,20 @@ public class f_Outpost extends Fragment {
                         s.update();
                     }
 
+                    Paint mShadow = new Paint();
+// radius=10, y-offset=2, color=black
+                    mShadow.setShadowLayer(2.0f, 1.0f, 2.0f, 0xFF000000);
+// in onDraw(Canvas)
 
 
 
                     int strokeWidth = 2;
-                    paint.setStrokeWidth(strokeWidth);
-                    paint.setStyle(Paint.Style.STROKE);
+                    mShadow.setStrokeWidth(strokeWidth);
+                    mShadow.setStyle(Paint.Style.FILL_AND_STROKE);
                     cons.moveTo(mWidth / 2, (float) (mHeight / 2));
                     cons.lineTo(mWidth / 2, mHeight);
+
+                    //->*Math.cos(Math.toRadians(degrees));
                     cons.moveTo(mWidth / 3, mHeight);
                     cons.lineTo(mWidth / 3, (float) (mHeight / 1.04));
                     cons.lineTo((float) (mWidth / 3.4), (float) (mHeight / 1.04));
@@ -189,6 +195,8 @@ public class f_Outpost extends Fragment {
                     cons.lineTo((float) (mWidth / 6.2), (float) (mHeight / 1.02));
                     cons.lineTo((float) (0), (float) (mHeight / 1.02));
                     canvas.drawPath(cons, paint);
+
+
                     canvas.drawCircle(mWidth / 2, mHeight / 2, 50, scanning==true? paint: p1);
                     strokeWidth = 5;
                     paint.setStrokeWidth(strokeWidth);

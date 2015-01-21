@@ -1,5 +1,6 @@
 package com.outpost;
 
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -7,20 +8,26 @@ import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.SurfaceTexture;
 import android.os.Bundle;
+import android.os.Environment;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
+
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
+
+import java.io.File;
+
 
 /**
  * Created by andre on 14.01.2015.
  */
 public class f_Storage extends Fragment {
     TextureView view;
+    TextView in,out;
     private RenderThread mThread;
     private int mWidth;
     private int mHeight;
@@ -31,8 +38,44 @@ public class f_Storage extends Fragment {
 
         view.setSurfaceTextureListener(new CanvasListener());
         view.setOpaque(false);
+        in = (TextView)v.findViewById(R.id.in_files);
+       out = (TextView)v.findViewById(R.id.out_files);
         return v;
     }
+
+
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        File f_in = new File(Environment.getExternalStorageDirectory()+"/OutpostShare/in/");
+        File[] files = f_in.listFiles();
+        String inlist = "";
+        for (int i = 0; i< files.length;i++) {
+
+                inlist += files[i].toString();
+
+        }
+        in.setText(inlist);
+
+        File f_out = new File(Environment.getExternalStorageDirectory()+"/OutpostShare/out/");
+        File[] files_b = f_out.listFiles();
+        String outlist = "";
+        for (int i = 0; i< files_b.length;i++) {
+
+            outlist += files_b[i].toString();
+
+        }
+        out.setText(outlist);
+
+
+
+        //ara = new ArrayAdapter<String>(getActivity(),  android.R.layout.simple_list_item_1, arrayList);
+
+
+    }
+
 
     private class RenderThread extends Thread {
         private volatile boolean mRunning = true;

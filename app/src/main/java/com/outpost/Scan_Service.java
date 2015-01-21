@@ -1,3 +1,6 @@
+
+
+
 package com.outpost;
 
 import android.app.Service;
@@ -64,6 +67,10 @@ public class Scan_Service extends Service {
         if (!alreadyRunning) {
             run_forest.run();
         }
+
+
+
+        transfer.start();
         return Service.START_NOT_STICKY;
 
     }
@@ -195,7 +202,6 @@ public class Scan_Service extends Service {
                     deviceList.clear();
                     addressList.add(device.getAddress());
                     deviceList.add(foundDevice);
-                    transfer.start();
                     if (transfer.getState() < 3) {
                         loop_handler.postDelayed(ms_decider, rnd);
                     }
@@ -214,7 +220,7 @@ public class Scan_Service extends Service {
 
             } else if (BluetoothDevice.ACTION_NAME_CHANGED.equals(action)) {
 
-                Log.w("", "transfer.start");
+
                 Toast.makeText(getApplicationContext(), "I'M A SERVER", Toast.LENGTH_LONG).show();
 
 
@@ -253,7 +259,7 @@ public class Scan_Service extends Service {
                     String dev_name = BTAdapter.getName();
                     int rnd = (int) Math.random() * 5;
 
-                    BTAdapter.setName(dev_name.substring(0, dev_name.length() - 1) + String.valueOf(rnd));
+                    BTAdapter.setName(dev_name + String.valueOf(rnd));
 
                     Log.w("", "transfer connect");
                     Toast.makeText(getApplicationContext(), "I'M A CLIENT", Toast.LENGTH_LONG).show();

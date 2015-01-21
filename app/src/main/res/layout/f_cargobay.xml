@@ -21,8 +21,17 @@
             android:id="@+id/texture_cargobay"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+
             />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cargo Bay, live shipping of chunks if ship is connected"
+            android:id="@+id/textView5"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
 
     </RelativeLayout>

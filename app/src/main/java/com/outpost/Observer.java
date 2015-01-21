@@ -132,6 +132,7 @@ public class Observer extends FragmentActivity {
     void onStartScanning(){
 
 
+
         Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
         discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 0);
         startActivity(discoverableIntent);
@@ -176,6 +177,8 @@ public class Observer extends FragmentActivity {
 
                 handler.close();
             }
+
+
 
 
             if (loop) start();
@@ -325,11 +328,14 @@ public class Observer extends FragmentActivity {
 
 
 
-    public String[] getMac(){
-        String[] mac = mac_address.split(":");
+    public int[] getMac() {
 
+        String[] macs = mac_address.split(":");
+        int[] mac = new int[macs.length];
+        for (int i = 0; i < macs.length; i++) {
+            mac[i] = Integer.parseInt(macs[i], 16);
+        }
         return mac;
-
     }
 
 
