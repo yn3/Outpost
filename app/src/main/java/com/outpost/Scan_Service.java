@@ -17,6 +17,7 @@ import android.text.format.Time;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -34,8 +35,9 @@ public class Scan_Service extends Service {
     BluetoothAdapter BTAdapter;
     String con_device = "";
     Transfer transfer;
-    int loop_time = 500;
+    int loop_time = 1500;
     boolean stateBlock = false;
+    boolean setex = false;
 
 
     @Override
@@ -45,7 +47,13 @@ public class Scan_Service extends Service {
         Log.v("Scanner", "reached");
         btScanner = new ScanBT();
         IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+        IntentFilter filter1 = new IntentFilter(BluetoothDevice.ACTION_ACL_CONNECTED);
+        IntentFilter filter2 = new IntentFilter(BluetoothDevice.ACTION_ACL_DISCONNECT_REQUESTED);
+        IntentFilter filter3 = new IntentFilter(BluetoothDevice.ACTION_ACL_DISCONNECTED);
         filter.addAction(BluetoothDevice.ACTION_NAME_CHANGED);
+        this.registerReceiver(btScanner, filter1);
+        this.registerReceiver(btScanner, filter2);
+        this.registerReceiver(btScanner, filter3);
         registerReceiver(btScanner, filter);
         transfer = new Transfer(getApplicationContext());
 
@@ -124,8 +132,13 @@ public class Scan_Service extends Service {
             handler.open();
 
             if (transfer.getState() > 2) {
-                Toast.makeText(getApplicationContext(), "CONNECTED", Toast.LENGTH_LONG).show();
+               // Toast.makeText(getApplicationContext(), "CONNECTED", Toast.LENGTH_LONG).show();
 
+            }
+
+            if(BTAdapter.getScanMode() != BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE)
+            {
+               Log.w("IAM NOT DISCOVERABLE ANYMORE","IAM NOT DISCOVERABLE ANYMORE");
             }
 
 
@@ -146,6 +159,23 @@ public class Scan_Service extends Service {
             }
 
             handler.close();
+
+
+
+
+            if(transfer.getState()== transfer.STATE_CONNECTED) {
+                int rnd = (int) Math.random() * 5;
+                String txt = "JO FUCK YEA" + String.valueOf(rnd);
+                byte[] bytes = new byte[0];
+                try {
+
+                    bytes = txt.getBytes("UTF-8");
+                    transfer.write(bytes);
+
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+            }
 
             if (loop) {
 
@@ -168,43 +198,20 @@ public class Scan_Service extends Service {
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
 
                 String foundDevice = device.getName();
+                loop_handler.removeCallbacks(ms_decider);
 
-                /*
-                if (foundDevice.contains("OP@")) {
-                    int pin = 0000;
-                    try {
-                        Log.d("setPin()", "Try to set the PIN");
-                        Method m = device.getClass().getMethod("setPasskey", int.class);
-                        m.invoke(device, pin);
-                        Log.d("setPin()", "Success to add the PIN.");
-                    } catch (Exception e) {
-                        Log.e("setPin()", e.getMessage());
-                    }
-                    Method m = null;
-                    try {
-                        m = device.getClass().getMethod("createBond", (Class[]) null);
-                        try {
-                            m.invoke(device, (Object[]) null);
-                        } catch (IllegalAccessException e) {
-                            e.printStackTrace();
-                        } catch (InvocationTargetException e) {
-                            e.printStackTrace();
-                        }
-                    } catch (NoSuchMethodException e) {
-                        e.printStackTrace();
-                    }
-                }
-                */
 
                 if (foundDevice.contains("OP@")) {
-                    int rnd = (int) (Math.random() * 1000);
+                    int rnd = ((int) (Math.random() * 2000)+500);
                     addressList.clear();
                     deviceList.clear();
                     addressList.add(device.getAddress());
                     deviceList.add(foundDevice);
-                    if (transfer.getState() < 3) {
-                        loop_handler.postDelayed(ms_decider, rnd);
+                    if (transfer.getState()!=transfer.STATE_CONNECTED ) {
+                        //loop_handler.postDelayed(ms_decider, rnd);
                     }
+
+
                 }
 
 
@@ -217,14 +224,28 @@ public class Scan_Service extends Service {
                 }
 
                 BTAdapter.startDiscovery();
-
-            } else if (BluetoothDevice.ACTION_NAME_CHANGED.equals(action)) {
-
-
-                Toast.makeText(getApplicationContext(), "I'M A SERVER", Toast.LENGTH_LONG).show();
+                Log.w("","connecting again");
+            }
+            else if (BluetoothDevice.ACTION_ACL_CONNECTED.equals(action)) {
+               Log.w("connected","connected");
 
 
             }
+
+            else if (BluetoothDevice.ACTION_ACL_DISCONNECT_REQUESTED.equals(action)) {
+                Log.w("disco request","disco request");
+            }
+            else if (BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)) {
+                Log.w("disconnected","disconnected");
+                stateBlock =false;
+            }
+                /*
+            if (BluetoothDevice.ACTION_NAME_CHANGED.equals(action)) {
+                loop_handler.removeCallbacks(ms_decider);
+                stateBlock = true;
+                Log.w("","device changed name");
+            }
+            */
         }
     }
 
@@ -248,27 +269,26 @@ public class Scan_Service extends Service {
 
     }
 
+
     private Runnable ms_decider = new Runnable() {
 
         @Override
         public void run() {
-            if (!stateBlock) {
-                stateBlock = true;
-                for (int i = 0; i < addressList.size(); i++) {
 
-                    String dev_name = BTAdapter.getName();
-                    int rnd = (int) Math.random() * 5;
+                    for (int i = 0; i < addressList.size(); i++) {
 
-                    BTAdapter.setName(dev_name + String.valueOf(rnd));
+                        String dev_name = BTAdapter.getName();
+                        int rnd = (int) Math.random() * 5;
 
-                    Log.w("", "transfer connect");
-                    Toast.makeText(getApplicationContext(), "I'M A CLIENT", Toast.LENGTH_LONG).show();
-                    if (transfer.getState() < 3)
-                        transfer.connect(BTAdapter.getRemoteDevice(addressList.get(i).toString()), false);
+                       // BTAdapter.setName(dev_name + String.valueOf(rnd));
 
+                        Toast.makeText(getApplicationContext(), "I'M A CLIENT", Toast.LENGTH_LONG).show();
+                        if (transfer.getState() < 3)
+                            transfer.connect(BTAdapter.getRemoteDevice(addressList.get(i).toString()), false);
+
+                    }
                 }
-            }
-        }
+
 
     };
 

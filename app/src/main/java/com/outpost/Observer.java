@@ -74,7 +74,7 @@ public class Observer extends FragmentActivity {
         final SlidingTabLayout tabLayout = (SlidingTabLayout)findViewById(R.id.sliding_tabs);
         tabLayout.setViewPager(pager);
 
-
+        Log.w("", String.valueOf(Environment.getExternalStorageDirectory()));
                                                                                      /*-> INIT <-*/
 
         Looper = new Handler();
@@ -87,6 +87,7 @@ public class Observer extends FragmentActivity {
 
 
         BTAdapter = BluetoothAdapter.getDefaultAdapter();
+
 
 
         run_forest.run();
@@ -131,11 +132,10 @@ public class Observer extends FragmentActivity {
     /*-> SERVICE SETUP<-*/
     void onStartScanning(){
 
-
-
         Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
         discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 0);
         startActivity(discoverableIntent);
+
 
         startService(i);
         if(!alreadyScanning(Scan_Service.class))bindService(i, CON_TO_SERVICE, Context.BIND_AUTO_CREATE);
@@ -143,6 +143,9 @@ public class Observer extends FragmentActivity {
         run_forest.run();
 
     }
+
+
+
 
 
     void onStopScanning(){
@@ -277,6 +280,7 @@ public class Observer extends FragmentActivity {
         if(alreadyScanning(Scan_Service.class))unbindService(CON_TO_SERVICE);
         loop = false;
         Looper.removeCallbacks(run_forest);
+
 
     }
 

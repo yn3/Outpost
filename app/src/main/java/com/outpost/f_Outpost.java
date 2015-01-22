@@ -17,11 +17,13 @@ import android.view.LayoutInflater;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,7 +43,9 @@ public class f_Outpost extends Fragment {
     private int mWidth;
     private int mHeight;
     boolean scanning;
+    Button but;
     int[] mac;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -57,8 +61,10 @@ public class f_Outpost extends Fragment {
         usr = (TextView) v.findViewById(R.id.op_usr);
 
         hi = (TextView) v.findViewById(R.id.hi);
+
         b1 = (TextView) v.findViewById(R.id.b1);
         out1 = (TextView) v.findViewById(R.id.out1);
+        but = (Button)v.findViewById(R.id.button);
         b1.setText("");
         if (((Observer) getActivity()).alreadyScanning(Scan_Service.class)) {
             start_scan.setChecked(true);
@@ -77,9 +83,19 @@ public class f_Outpost extends Fragment {
 
                     ((Observer) getActivity()).onStopScanning();
                     scanning = false;
+
                     Toast.makeText(getActivity(), "Scanning stopped.", Toast.LENGTH_LONG).show();
 
                 }
+            }
+        });
+
+        but.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+
             }
         });
 
@@ -400,4 +416,25 @@ public class f_Outpost extends Fragment {
         }
 
     }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+
+
+
+    }
+
+
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+
+    }
+
+
 }
