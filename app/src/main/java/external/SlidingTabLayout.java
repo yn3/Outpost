@@ -22,6 +22,7 @@ import android.os.Build;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -192,12 +193,12 @@ public class SlidingTabLayout extends HorizontalScrollView {
             View tabView = null;
 
 
-            tabView = LayoutInflater.from(getContext()).inflate(R.layout.tab_layout, mTabStrip,
+            tabView = LayoutInflater.from(getContext()).inflate(R.layout.list_tablayout, mTabStrip,
                     false);
 
 
-            Integer[] iconResourceArray = {R.drawable.ic_action_about,
-                    R.drawable.ic_action_network_wifi, R.drawable.ic_action_view_as_grid,R.drawable.ic_action_network_wifi, R.drawable.ic_action_view_as_grid};
+            Integer[] iconResourceArray = {R.drawable.ic_action_shuffle,
+                    R.drawable.ic_fa_link, R.drawable.ic_fa_magnet,R.drawable.ic_fa_list, R.drawable.ic_action_collection};
             ImageView iconImageView = (ImageView) tabView.findViewById(com.outpost.R.id.tab_layout_icon);
             iconImageView.setImageDrawable(getContext().getResources().getDrawable(iconResourceArray[i]));
 
@@ -311,6 +312,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
     private class TabClickListener implements OnClickListener {
         @Override
         public void onClick(View v) {
+            Log.w("", "PRESSING SOMTH");
             for (int i = 0; i < mTabStrip.getChildCount(); i++) {
                 if (v == mTabStrip.getChildAt(i)) {
                     mViewPager.setCurrentItem(i);

@@ -1,70 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingTop="50dp">
+
     <TextureView
         android:id="@+id/texture_storage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+
         />
+
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:minHeight="35dp"></android.support.v7.widget.Toolbar>
-    <TextView android:text="storage"  android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="151dp"
-        android:id="@+id/textView7" />
+
+
+
+
+        <TextView
+            android:id="@+id/path"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@android:id/empty"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-light"
+            android:text="No Data"
+
+            />
+
+        <ListView
+            android:id="@android:id/list"
+
+            android:layout_width="300dp"
+            android:layout_height="160dp"
+            android:dividerHeight="2sp"
+            android:divider="@drawable/rect_alpha"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center"
+            android:headerDividersEnabled="false"
+            android:paddingTop="20dp"
+            android:paddingBottom="30dp"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true" />
+
+        <ImageView
+
+            android:id="@+id/storage_id"
+            android:layout_width="108dp"
+            android:layout_height="172dp"
+            android:scaleType="fitCenter"
+            android:layout_above="@android:id/list"
+            android:layout_alignLeft="@android:id/list"
+            android:layout_alignStart="@android:id/list" />
 
     <TextView
+        android:id="@+id/n1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-thin"
+        android:gravity="left"
+        android:text="ID IMAGE"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="defines Shares, see incoming,outgoing and manipulated data"
+        android:textColor="@android:color/background_dark"
+        android:textSize="16sp"
+        android:layout_row="6"
+        android:layout_column="5"
+        android:layout_above="@+id/storage_id"
+        android:layout_alignLeft="@+id/storage_id"
+        android:layout_alignStart="@+id/storage_id"
+        android:layout_alignRight="@+id/storage_id"
+        android:layout_alignEnd="@+id/storage_id" />
+
+    <TextView
+        android:id="@+id/shareSize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-thin"
+        android:gravity="center"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@android:color/background_dark"
+        android:textSize="26sp"
+        android:layout_row="6"
+        android:layout_column="5"
+        android:layout_marginBottom="63dp"
+        android:layout_alignBottom="@+id/storage_id"
+        android:layout_alignRight="@+id/textView2"
+        android:layout_alignEnd="@+id/textView2" />
+
+    <TextView
         android:id="@+id/textView2"
-        android:layout_marginTop="32dp"
-        android:layout_alignParentBottom="true" />
-
-    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-thin"
+        android:gravity="center"
+        android:text="SHARE"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="in"
-        android:id="@+id/textView3"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="out"
-        android:id="@+id/textView4"
-        android:layout_below="@+id/textView5"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="148dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
-        android:id="@+id/in_files"
-        android:layout_below="@+id/toolbar"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
-        android:id="@+id/out_files"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:textColor="@android:color/background_dark"
+        android:textSize="16sp"
+        android:layout_row="6"
+        android:layout_column="5"
+        android:layout_alignTop="@+id/n1"
+        android:layout_alignRight="@android:id/list"
+        android:layout_alignEnd="@android:id/list" />
 </RelativeLayout>

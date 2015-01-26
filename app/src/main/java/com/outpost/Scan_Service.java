@@ -10,16 +10,13 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
 import android.text.format.Time;
 import android.util.Log;
 import android.widget.Toast;
-
-import java.io.UnsupportedEncodingException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 
@@ -29,22 +26,21 @@ public class Scan_Service extends Service {
     private final IBinder mBinder = new LocalBinder();
     ScanBT btScanner;
     DataHandler handler;
-    ArrayList deviceList, distanceList, addressList;
+    ArrayList remoteNames, remoteAddress,tmpN,tmpA;
     Handler loop_handler = new Handler();
     boolean loop = true;
     BluetoothAdapter BTAdapter;
-    String con_device = "";
     Transfer transfer;
-    int loop_time = 1500;
+    int loop_time = 2500;
     boolean stateBlock = false;
-    boolean setex = false;
+    boolean enag = true;
+    boolean shareFiles = false;
 
 
     @Override
     public void onCreate() {
 
         BTAdapter = BluetoothAdapter.getDefaultAdapter();
-        Log.v("Scanner", "reached");
         btScanner = new ScanBT();
         IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
         IntentFilter filter1 = new IntentFilter(BluetoothDevice.ACTION_ACL_CONNECTED);
@@ -57,14 +53,18 @@ public class Scan_Service extends Service {
         registerReceiver(btScanner, filter);
         transfer = new Transfer(getApplicationContext());
 
+
+
+
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        deviceList = new ArrayList<>();
-        addressList = new ArrayList<>();
-        distanceList = new ArrayList<Integer>();
+        remoteNames = new ArrayList<>();
+        remoteAddress = new ArrayList<>();
+        tmpA = new ArrayList<>();
+        tmpN= new ArrayList<>();
         if (BTAdapter.isDiscovering()) {
 
             BTAdapter.cancelDiscovery();
@@ -108,8 +108,9 @@ public class Scan_Service extends Service {
 
     public ArrayList getCurrDevices() {
 
-        if (deviceList != null) {
-            return deviceList;
+        if ( tmpA!=null && !tmpA.isEmpty()) {
+
+            return  tmpA;
         } else {
 
             return null;
@@ -119,8 +120,26 @@ public class Scan_Service extends Service {
 
     public int getCurrRows() {
 
-        return deviceList.size();
+        if (remoteAddress!=null && !remoteAddress.isEmpty()) {
+            return remoteNames.size();
+        }else{
 
+            return 0;
+        }
+
+    }
+
+
+    public ArrayList getCurrNames() {
+
+
+        if (remoteAddress!=null ) {
+
+            return remoteNames;
+        } else {
+
+            return null;
+        }
     }
 
     private Runnable run_forest = new Runnable() {
@@ -128,21 +147,11 @@ public class Scan_Service extends Service {
         @Override
         public void run() {
             alreadyRunning = true;
+
             handler = new DataHandler(getBaseContext());
             handler.open();
 
-            if (transfer.getState() > 2) {
-               // Toast.makeText(getApplicationContext(), "CONNECTED", Toast.LENGTH_LONG).show();
-
-            }
-
-            if(BTAdapter.getScanMode() != BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE)
-            {
-               Log.w("IAM NOT DISCOVERABLE ANYMORE","IAM NOT DISCOVERABLE ANYMORE");
-            }
-
-
-            for (int i = 0; i < deviceList.size(); i++) {
+            for (int i = 0; i < remoteNames.size(); i++) {
 
                 Time time = new Time();
                 Time date;
@@ -150,32 +159,28 @@ public class Scan_Service extends Service {
                 time.setToNow();
                 date = time;
                 int is_aura = 0;
-                String devTemp = String.valueOf(deviceList.get(i));
+                String devTemp = String.valueOf(remoteNames.get(i));
+
                 if (devTemp.contains("OP@")) {
                     is_aura = 1;
                 }
-                long what = handler.insert(devTemp, String.valueOf(addressList.get(i)), is_aura,
+                long what = handler.insert(devTemp, String.valueOf( remoteAddress.get(i)), is_aura,
                         time.format("%H:%M"), date.format("%d.%m.%Y"));
             }
+
+            if (BTAdapter.isDiscovering()) {
+
+                BTAdapter.cancelDiscovery();
+
+            }
+
+            BTAdapter.startDiscovery();
+
 
             handler.close();
 
 
 
-
-            if(transfer.getState()== transfer.STATE_CONNECTED) {
-                int rnd = (int) Math.random() * 5;
-                String txt = "JO FUCK YEA" + String.valueOf(rnd);
-                byte[] bytes = new byte[0];
-                try {
-
-                    bytes = txt.getBytes("UTF-8");
-                    transfer.write(bytes);
-
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-            }
 
             if (loop) {
 
@@ -195,35 +200,38 @@ public class Scan_Service extends Service {
 
 
             if (BluetoothDevice.ACTION_FOUND.equals(action)) {
-                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                BluetoothDevice device
+                        = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
 
                 String foundDevice = device.getName();
-                loop_handler.removeCallbacks(ms_decider);
-
-
+                loop_handler.removeCallbacks(clearThread);
+                remoteAddress.clear();
+                remoteNames.clear();
+                tmpA.clear();
+                remoteAddress.add(device.getAddress());
+                remoteNames.add(foundDevice);
                 if (foundDevice.contains("OP@")) {
-                    int rnd = ((int) (Math.random() * 2000)+500);
-                    addressList.clear();
-                    deviceList.clear();
-                    addressList.add(device.getAddress());
-                    deviceList.add(foundDevice);
-                    if (transfer.getState()!=transfer.STATE_CONNECTED ) {
-                        //loop_handler.postDelayed(ms_decider, rnd);
-                    }
 
+                    tmpA.add(device.getAddress());
+
+
+                    loop_handler.postDelayed(clearThread, 10000);
+                    if (transfer.getState() != transfer.STATE_CONNECTED) {
+                        handler.open();
+                        if (handler.grabURL(String.valueOf(device.getAddress())).length() < 2) {
+                            //if(!handler.checkTime(String.valueOf(device.getAddress())) || shareFiles)
+                            loop_handler.postDelayed(ms_decider, 100);
+                            Log.w("INIT", "CONNECT LOOP");
+                        }
+                        handler.close();
+                    }
 
                 }
 
 
             } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
 
-                if (BTAdapter.isDiscovering()) {
 
-                    BTAdapter.cancelDiscovery();
-
-                }
-
-                BTAdapter.startDiscovery();
                 Log.w("","connecting again");
             }
             else if (BluetoothDevice.ACTION_ACL_CONNECTED.equals(action)) {
@@ -235,25 +243,17 @@ public class Scan_Service extends Service {
             else if (BluetoothDevice.ACTION_ACL_DISCONNECT_REQUESTED.equals(action)) {
                 Log.w("disco request","disco request");
             }
-            else if (BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)) {
-                Log.w("disconnected","disconnected");
+            else if (BluetoothDevice.ACTION_NAME_CHANGED.equals(action)) {
+
                 stateBlock =false;
+                //Log.w("Other device changed name","");
             }
-                /*
-            if (BluetoothDevice.ACTION_NAME_CHANGED.equals(action)) {
-                loop_handler.removeCallbacks(ms_decider);
-                stateBlock = true;
-                Log.w("","device changed name");
-            }
-            */
+
         }
     }
 
 
-    public String devi() {
-        return con_device;
 
-    }
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -275,16 +275,13 @@ public class Scan_Service extends Service {
         @Override
         public void run() {
 
-                    for (int i = 0; i < addressList.size(); i++) {
+                    for (int i = 0; i <  remoteAddress.size(); i++) {
 
-                        String dev_name = BTAdapter.getName();
-                        int rnd = (int) Math.random() * 5;
-
-                       // BTAdapter.setName(dev_name + String.valueOf(rnd));
 
                         Toast.makeText(getApplicationContext(), "I'M A CLIENT", Toast.LENGTH_LONG).show();
                         if (transfer.getState() < 3)
-                            transfer.connect(BTAdapter.getRemoteDevice(addressList.get(i).toString()), false);
+                            transfer.connect(BTAdapter.getRemoteDevice
+                                    ( remoteAddress.get(i).toString()), false);
 
                     }
                 }
@@ -292,5 +289,19 @@ public class Scan_Service extends Service {
 
     };
 
+
+    private Runnable clearThread = new Runnable() {
+
+        @Override
+        public void run() {
+
+            remoteAddress.clear();
+            remoteNames.clear();
+            tmpA.clear();
+            Log.w("", "cleared all");
+        }
+
+
+    };
 
 }

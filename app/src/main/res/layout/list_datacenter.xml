@@ -4,21 +4,22 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="20dp"
     android:layout_marginLeft="-1dp"
-    android:layout_marginRight="25dp"
+    android:layout_marginRight="35dp"
     android:layout_marginTop="25dp"
     android:fontFamily="sans-serif-thin"
     android:gravity="left"
     android:orientation="horizontal">
 
     <View
-        android:id="@+id/recView"
+        android:id="@+id/dc_recView"
         android:layout_width="5dp"
         android:layout_height="20dp"
         android:layout_marginTop="4dp"
+        android:background="@drawable/rect_alpha"
          />
 
     <TextView
-        android:id="@+id/timestamp"
+        android:id="@+id/dc_timestamp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="50dp"
@@ -27,11 +28,11 @@
         android:gravity="right"
         android:text="time"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@android:color/background_light"
+        android:textColor="@android:color/background_dark"
         android:textSize="11sp" />
 
     <TextView
-        android:id="@+id/date"
+        android:id="@+id/dc_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -42,22 +43,21 @@
         android:gravity="right"
         android:text="date"
         android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/background_material_dark"
         android:textSize="9sp" />
 
     <TextView
-        android:id="@+id/ssid"
+        android:id="@+id/dc_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_toEndOf="@+id/date"
-        android:layout_toRightOf="@+id/date"
+        android:layout_toRightOf="@+id/dc_date"
         android:layout_weight="1"
         android:elevation="5dp"
         android:fontFamily="sans-serif-thin"
         android:gravity="right"
         android:maxLines="1"
         android:paddingLeft="20dp"
-        android:shadowColor="@android:color/darker_gray"
+        android:shadowColor="@color/background_floating_material_dark"
         android:shadowDx="1"
         android:shadowDy="1"
         android:shadowRadius="1"
@@ -67,7 +67,7 @@
         android:textSize="20sp" />
 
     <TextView
-        android:id="@+id/id_txt"
+        android:id="@+id/dc_id"
         android:layout_width="49dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -78,17 +78,21 @@
         android:gravity="right"
         android:singleLine="true"
         android:text="Medium Text"
-        android:textColor="@android:color/background_light"
+        android:textColor="@android:color/background_dark"
         android:textSize="20dp" />
 
-    <TextView
-        android:id="@+id/ssiddiv"
+
+
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/ssid"
-        android:layout_toRightOf="@+id/ssid"
-        android:text=":"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:id="@+id/dc_url"
+        android:layout_weight="1"
+        android:layout_gravity="left"
+        android:layout_alignBottom="@+id/dc_date"
+        android:layout_alignTop="@+id/dc_id"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="false"
+        android:layout_alignParentRight="false" />
 
 </RelativeLayout>

@@ -20,47 +20,67 @@ public class Settings extends FragmentActivity {
     public static final String SETTINGS = "user_settings";
     BluetoothAdapter BTAdapter;
     String mac;
+
+
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-        final EditText userNick = (EditText)findViewById(R.id.field_nickName);
-        Button confirm_nick = (Button)findViewById(R.id.nick_confirm);
-        WifiManager wifiManager = (WifiManager) this.getSystemService(Context.WIFI_SERVICE);
 
-        if(wifiManager.isWifiEnabled()) {
+        final EditText userNick = (EditText) findViewById(R.id.field_nickName);
+        Button confirm_nick = (Button) findViewById(R.id.nick_confirm);
+        WifiManager wifiManager = (WifiManager) this.getSystemService(Context.WIFI_SERVICE);
+        userNick.setHint("Enter Nickname");
+
+        if (wifiManager.isWifiEnabled()) {
+
             WifiInfo info = wifiManager.getConnectionInfo();
             mac = info.getMacAddress();
+
         } else {
+
             wifiManager.setWifiEnabled(true);
             WifiInfo info = wifiManager.getConnectionInfo();
             mac = info.getMacAddress();
+
         }
-        confirm_nick.setOnClickListener(new View.OnClickListener(){
+
+        confirm_nick.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
 
 
                 String nick = userNick.getText().toString();
-                if(nick.length()<2) {
+                if (nick.length() < 2) {
+
                     Toast.makeText(getApplicationContext(), "Nick must be at least 2 chars long", Toast.LENGTH_LONG).show();
-                }else if(nick.length()>10){
+
+                } else if (nick.length() > 10) {
+
                     Toast.makeText(getApplicationContext(), "Maximum length is 10 chars", Toast.LENGTH_LONG).show();
-                }else{
-                    SharedPreferences settings = getSharedPreferences(SETTINGS,0);
+
+                } else {
+
+                    SharedPreferences settings = getSharedPreferences(SETTINGS, 0);
                     SharedPreferences.Editor editor = settings.edit();
-                    editor.putBoolean("firstLaunch",false).commit();
-                    editor.putString("Nickname",nick).commit();
-                    editor.putString("Mac",mac).commit();
+
+                    editor.putBoolean("firstLaunch", false).commit();
+                    editor.putString("Nickname", nick).commit();
+                    editor.putString("Mac", mac).commit();
+
                     Observer observer = new Observer();
                     observer.changeName(nick);
-                    Toast.makeText(getApplicationContext(), "Set Nickname to " + nick + " ", Toast.LENGTH_LONG).show();
+
                     BTAdapter = BluetoothAdapter.getDefaultAdapter();
                     BTAdapter.setName("OP@" + nick + " ");
-                    Intent i = new Intent(getApplicationContext(),Observer.class);
+
+                    Toast.makeText(getApplicationContext(), "Set Nickname to " + nick + " ", Toast.LENGTH_LONG).show();
+
+                    Intent i = new Intent(getApplicationContext(), Observer.class);
                     startActivity(i);
                     finish();
+
                 }
             }
 

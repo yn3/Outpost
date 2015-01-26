@@ -7,23 +7,8 @@ import android.database.DatabaseUtils;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.os.Environment;
-import android.util.Log;
-
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
-
-import java.io.File;
-import java.io.FileOutputStream;
+import android.text.format.Time;
 
 public class DataHandler {
 
@@ -36,10 +21,11 @@ public class DataHandler {
     public static final String USER = "user";
     public static final String TIME = "timestamp";
     public static final String DATE = "date";
-    public static final String DATA_BASE_NAME = "aura.db";
+    public static final String URL = "url";
+    public static final String DATA_BASE_NAME = "outpost.db";
     public static final String TABLE_NAME = "aura";
     public static final int DATABASE_VERSION = 1;
-    public static final String TABLE_CREATE = "create table aura (_id INTEGER PRIMARY KEY,name text not null,mac text not null,user text, is_aura, timestamp text, date text, UNIQUE(MAC) ON CONFLICT IGNORE);";
+    public static final String TABLE_CREATE = "create table aura (_id INTEGER PRIMARY KEY,name text not null,mac text not null,user text, is_outpost, timestamp text, date text, url text, UNIQUE(MAC) ON CONFLICT IGNORE);";
 
     public DataHandler(Context context) {
 
@@ -55,16 +41,17 @@ public class DataHandler {
 
     }
 
-    public long insert(String name, String mac, int is_aura,
+    public long insert(String name, String mac, int is_outpost,
                        String timestamp, String date) {
         ContentValues content = new ContentValues();
 
         content.put(NAME, name);
         content.put(MAC, mac);
-        content.put(USER,"");
-        content.put("is_aura", is_aura);
+        content.put(USER, "");
+        content.put("is_outpost", is_outpost);
         content.put(TIME, timestamp);
         content.put(DATE, date);
+        content.put(URL, "");
 
 
         return db.insert(TABLE_NAME, null, content);
@@ -72,24 +59,73 @@ public class DataHandler {
     }
 
 
-
-
     public Cursor grab() {
 
         return db.query(TABLE_NAME, new String[]{"rowid _id", NAME, TIME,
-                DATE}, null, null, null, null, null);
+                DATE, URL}, null, null, null, null, null);
 
     }
 
     public String[] grabDetails(int position) {
 
-        Cursor cursor = db.query(TABLE_NAME, new String[]{"rowid _id", NAME, MAC, "is_aura", TIME, DATE}, null, null, null, null, null);
+        Cursor cursor = db.query(TABLE_NAME, new String[]{"rowid _id", NAME, MAC, "is_outpost", TIME, DATE}, null, null, null, null, null);
         cursor.moveToPosition(position);
-        String[] detail = {cursor.getString(0), cursor.getString(1),cursor.getString(2),cursor.getString(3)};
+        String[] detail = {cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3)};
 
         return detail;
 
     }
+
+
+    public String grabURL(String mac) {
+
+        String tmp = mac.replace("[", "").replace("]", "");
+
+
+        String url = "";
+
+        Cursor cursor = db.query(TABLE_NAME, new String[]{URL}, "mac=?", new String[]{tmp}, null, null, null);
+
+        if (cursor.getCount() > 0) {
+
+            cursor.moveToFirst();
+            url = cursor.getString(0);
+        }
+
+
+
+        return url;
+    }
+
+    public Boolean checkTime(String mac) {
+
+        String tmp = mac.replace("[", "").replace("]", "");
+
+
+        String date = "";
+
+        Cursor cursor = db.query(TABLE_NAME, new String[]{DATE}, "mac=?", new String[]{tmp}, null, null, null);
+
+        if (cursor.getCount() > 0) {
+
+            cursor.moveToFirst();
+            date = cursor.getString(0);
+        }
+
+        Time time = new Time();
+        time.clear(Time.getCurrentTimezone());
+        time.setToNow();
+        time.format("%d.%m.%Y");
+
+
+        if(String.valueOf(time)==date){
+            return true;
+        }
+
+        return false;
+    }
+
+
 
 
     public long CountRows() {
@@ -97,6 +133,18 @@ public class DataHandler {
         return DatabaseUtils.queryNumEntries(db, TABLE_NAME);
 
     }
+
+
+    public void updateURL(String mac, String nick) {
+        ContentValues cv = new ContentValues();
+        String getMac = mac;
+        String loc = Environment.getExternalStorageDirectory() + "/OutpostShare/processor/" + nick + ".png";
+        cv.put("url", loc);
+        String WHERE = String.format("%s='%s'", MAC, getMac);
+        db.update(TABLE_NAME, cv, WHERE, null);
+
+    }
+
 
     public void close() {
 
@@ -133,6 +181,13 @@ public class DataHandler {
             onCreate(db);
 
         }
+    }
+
+    public boolean deleteEntry(String mac)
+
+
+    {
+        return db.delete(DATA_BASE_NAME, "mac = ?", new String[] {mac}) > 0;
     }
 
 }

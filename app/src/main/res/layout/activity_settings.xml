@@ -8,20 +8,41 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:text="Nickname"
         android:ems="10"
         android:id="@+id/field_nickName"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="133dp" />
+        android:layout_marginTop="133dp"
+        android:fontFamily="sans-serif-thin"
+        android:textColor="@android:color/background_light"/>
 
     <Button
+        android:id="@+id/nick_confirm"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Save &amp; Exit"
-        android:id="@+id/nick_confirm"
-
+        android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:text="Save &amp; Exit"
+        android:fontFamily="sans-serif-thin"
+        android:textColor="@android:color/background_light"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Additionally, please proceed to the Storage and set an ID IMAGE"
+        android:id="@+id/textView"
+        android:layout_below="@+id/nick_confirm"
+        android:layout_marginTop="80dp"
+        android:layout_alignLeft="@+id/field_nickName"
+        android:layout_alignStart="@+id/field_nickName"
+        android:layout_alignRight="@+id/field_nickName"
+        android:layout_alignEnd="@+id/field_nickName"
+        android:fontFamily="sans-serif-thin"
+        android:gravity="center"
+        android:textColor="@android:color/background_light"
+        android:textSize="20dp"/>
+
+
 </RelativeLayout>

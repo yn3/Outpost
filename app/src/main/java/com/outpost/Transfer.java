@@ -5,18 +5,29 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.Environment;
 import android.util.Log;
 
+import java.io.BufferedOutputStream;
+import java.io.DataInput;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.UUID;
 
 /**
  * Adapted BlueToothChat Example.
  */
 public class Transfer {
-    Scan_Service scanner;
+
     private static final String TAG = "BluetoothChatService";
     Scan_Service scan = new Scan_Service();
 
@@ -43,10 +54,20 @@ public class Transfer {
     public static final int STATE_CONNECTING = 2;
     public static final int STATE_CONNECTED = 3;
 
+    public static final String SETTINGS = "user_settings";
+    SharedPreferences settings;
+    String nick;
+    DataHandler handler;
+
+    boolean ID_ONLY = true;
 
     public Transfer(Context context) {
         mAdapter = BluetoothAdapter.getDefaultAdapter();
         mState = STATE_NONE;
+        SharedPreferences settings = context.getSharedPreferences(SETTINGS, 0);
+        nick = settings.getString("Nickname", "");
+        handler = new DataHandler(context);
+
 
     }
 
@@ -195,13 +216,8 @@ public class Transfer {
         setState(STATE_NONE);
     }
 
-    /**
-     * Write to the ConnectedThread in an unsynchronized manner
-     *
-     * @param out The bytes to write
-     * @see ConnectedThread#write(byte[])
-     */
-    public void write(byte[] out) {
+
+    public void write() {
         // Create temporary object
         ConnectedThread r;
         // Synchronize a copy of the ConnectedThread
@@ -210,18 +226,22 @@ public class Transfer {
             r = mConnectedThread;
         }
         // Perform the write unsynchronized
-        r.write(out);
+        try {
+            r.write();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
      * Indicate that the connection attempt failed and notify the UI Activity.
      */
-    private void connectionFailed() {
+    private void connectionFailed(BluetoothDevice bt) {
         // Send a failure message back to the Activity
         Log.w("Unable to connect device", "FAMOIT");
 
         // Start the service over to restart listening mode
-        Transfer.this.start();
+       // Transfer.this.connect(bt,false);
     }
 
     /**
@@ -283,7 +303,6 @@ public class Transfer {
                 }
 
 
-
                 // If a connection was accepted
                 if (socket != null) {
                     synchronized (Transfer.this) {
@@ -294,6 +313,7 @@ public class Transfer {
                                 // Situation normal. Start the connected thread.
                                 connected(socket, socket.getRemoteDevice(),
                                         mSocketType);
+                                write();
                                 break;
                             case STATE_NONE:
                             case STATE_CONNECTED:
@@ -367,7 +387,7 @@ public class Transfer {
             try {
                 // This is a blocking call and will only return on a
                 // successful connection or an exception
-                if(!mmSocket.isConnected())
+                if (!mmSocket.isConnected())
                     mmSocket.connect();
             } catch (IOException e) {
                 // Close the socket
@@ -377,12 +397,11 @@ public class Transfer {
                     Log.e(TAG, "unable to close() " + mSocketType +
                             " socket during connection failure", e2);
                 }
-                connectionFailed();
+                connectionFailed(mmDevice);
                 return;
             }
 
             // Make a connection to the BluetoothSocket
-
 
 
             // Reset the ConnectThread because we're done
@@ -392,6 +411,7 @@ public class Transfer {
 
             // Start the connected thread
             connected(mmSocket, mmDevice, mSocketType);
+            write();
         }
 
         public void cancel() {
@@ -411,12 +431,17 @@ public class Transfer {
         private BluetoothSocket mmSocket;
         private InputStream mmInStream;
         private OutputStream mmOutStream;
+        BufferedOutputStream bos = null;
+        DataInput dis;
 
         public ConnectedThread(BluetoothSocket socket, String socketType) {
             Log.d(TAG, "create ConnectedThread: " + socketType);
             mmSocket = socket;
             InputStream tmpIn = null;
+            dis = null;
             OutputStream tmpOut = null;
+            int fileSize;
+
 
             // Get the BluetoothSocket input and output streams
             try {
@@ -430,85 +455,175 @@ public class Transfer {
             mmOutStream = tmpOut;
         }
 
-        public void run() {
+        public void run()  {
+            byte[] bufferSize = new byte[1024];
+            byte[] buffer = new byte[8*1024];
+            int bytes, byteSize = 0;
 
-            byte[] buffer = new byte[1024];
-            int bytes;
 
-            // Keep listening to the InputStream while connected
-            while (true) {
+
+            String userName = "";
+
+            //bos = new BufferedOutputStream(1024);
+
+            int bytesReceived = 0;
+            int mLen2 = 0;
+            int mLen = 0;
+
+            int cnt = 0;
+
+
+            dis = new DataInputStream(mmInStream);
+            try {
+                byteSize = dis.readInt();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            dis = new DataInputStream(mmInStream);
+            try {
+                userName = dis.readUTF();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Log.w("received filesize", String.valueOf(byteSize));
+            bytesReceived = 0;
+            Log.w("userName is", userName);
+
+            File file = new File(Environment.getExternalStorageDirectory() + "/OutpostShare/processor/"+ userName +".png");
+            if(file.exists()) file.delete();
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+            OutputStream outFile = null;
+            try {
+                outFile = new FileOutputStream(file);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+
+
+            while (bytesReceived < byteSize) {
+
+
+
+
+
                 try {
-                    //Log.w("sadiofusoidufoisuoidfopsopdf", String.valueOf(mmSocket.isConnected()));
-                    // Read from the InputStream
-                   bytes = mmInStream.read(buffer);
-
-                    // Send the obtained bytes to the UI Activity
-                    String str = new String(buffer, "UTF-8");
-                    Log.w("FUCK", str);
+                    mLen = mmInStream.read(buffer);
                 } catch (IOException e) {
-                    Log.e(TAG, "disconnected", e);
-                    connectionLost();
+                    e.printStackTrace();
+                }
+                if (mLen > 0) {
+                    bytesReceived += mLen;
+                    try {
 
-                    // Start the service over to restart listening mode
-                    Transfer.this.start();
+
+
+                            outFile.write(buffer, 0, mLen);
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    Log.d(TAG, "Read received -1, breaking");
                     break;
                 }
+                Log.w("", String.valueOf(mLen)+ "=mLen");
+                Log.w("", String.valueOf(bytesReceived)+ "=bytesR");
             }
-        }
-
-        /**
-         * Write to the connected OutStream.
-         *
-         * @param buffer The bytes to write
-         */
-        public void write(byte[] buffer) {
-
-            // Log.w("","soudl write");
             try {
+                Log.d(TAG,"i'm trying to close the file");
 
-                String la = "hahahah";
-                byte[] ba = la.getBytes();
-
-                mmOutStream.write(ba);
-
-
-                // Share the sent message back to the UI Activity
-
-            } catch (IOException e) {
-                Log.e(TAG, "Exception during write", e);
-            }
-        }
-
-        public void cancel() {
+                outFile.close();
+                handler.open();
+                handler.updateURL(mmSocket.getRemoteDevice().getAddress(),userName);
+                handler.close();
 
 
-            if (mmOutStream != null) {
-                try {
-                    mmOutStream.close();
-                } catch (Exception e) {
-                }
-                mmOutStream = null;
-            }
-
-            if (mmInStream != null) {
-                try {
+                dis = new DataInputStream(mmInStream);
+                String closingCall = dis.readUTF();
+                if(closingCall.contains("end")) {
                     mmInStream.close();
-                } catch (Exception e) {
+                    Log.w("","everything done");
+                    Transfer.this.start();
                 }
-                mmInStream = null;
-            }
-
-            if (mmSocket != null) {
-                try {
-                    mmSocket.close();
-                } catch (Exception e) {
-                }
-                mmSocket = null;
+            } catch (IOException e) {
+                e.printStackTrace();
             }
 
 
         }
+
+
+
+    public void write() throws IOException {
+
+
+        File file = new File(Environment.getExternalStorageDirectory() + "/OutpostShare/processor/merge.png");
+        byte[] buffer = new byte[8*1024];
+        int fileSize = (int) file.length();
+        Log.w("", String.valueOf(fileSize));
+        InputStream inFile = new FileInputStream(file);
+        int mLen = 0;
+
+        DataOutputStream out = new DataOutputStream(mmOutStream);
+
+        out.writeInt(fileSize);
+        out.flush();
+        out.writeUTF(nick);
+        out.flush();
+
+        try {
+
+            while ((mLen = inFile.read(buffer, 0, buffer.length)) > 0) {
+                mmOutStream.write(buffer, 0, buffer.length);
+            }
+
+
+        } catch (IOException e) {
+            Log.e(TAG, "Exception during write", e);
+        }
+
+        out.writeUTF("end");
     }
+
+
+
+    public void cancel() {
+
+
+        if (mmOutStream != null) {
+            try {
+                mmOutStream.close();
+            } catch (Exception e) {
+            }
+            mmOutStream = null;
+        }
+
+        if (mmInStream != null) {
+            try {
+                mmInStream.close();
+            } catch (Exception e) {
+            }
+            mmInStream = null;
+        }
+
+        if (mmSocket != null) {
+            try {
+                mmSocket.close();
+            } catch (Exception e) {
+            }
+            mmSocket = null;
+        }
+
+
+    }
+}
 
 
 }

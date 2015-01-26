@@ -3,7 +3,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingTop="50dp">
 
     <TextureView
         android:id="@+id/texture_outpost"
@@ -34,20 +35,22 @@
             android:text=""
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
-            android:background="@android:color/transparent"/>
+            android:background="@null"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Medium Text"
+            android:text=""
             android:id="@+id/op_usr"
             android:gravity="right"
             android:layout_toEndOf="@+id/switch1"
             android:layout_alignParentEnd="false"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-            android:layout_toRightOf="@+id/switch1" />
+            android:layout_toRightOf="@+id/switch1"
+            android:textColor="@android:color/background_dark"
+            android:fontFamily="sans-serif-thin"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -58,40 +61,40 @@
             android:layout_below="@+id/switch1"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="126dp" />
-        <TextView
-            android:id="@+id/out1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:fontFamily="sans-serif-thin"
-            android:gravity="center"
-            android:text=""
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="99dp"
-            android:layout_centerHorizontal="true" />
+
 
         <TextView
             android:id="@+id/n1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/out1"
-            android:layout_centerHorizontal="true"
             android:fontFamily="sans-serif-thin"
             android:gravity="right"
-            android:text="Logged Bluetooth Devices"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@android:color/background_light"
+            android:text="O U T P O S T"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/background_material_dark"
 
-            android:textSize="11sp" />
 
-        <Button
+            android:textSize="32sp"
+            android:layout_above="@+id/uL"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:id="@+id/uL"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Button"
-            android:id="@+id/button"
-            android:layout_alignBottom="@+id/b1"
-            android:layout_centerHorizontal="true" />
+            android:fontFamily="sans-serif-thin"
+            android:gravity="right"
+            android:text="Bluetooth Station"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@android:color/secondary_text_light"
+            android:textSize="8sp"
+            android:layout_gravity=""
+            android:layout_above="@+id/switch1"
+
+            android:layout_marginBottom="93dp"
+            android:layout_centerHorizontal="true"
+            />
+
 
     </RelativeLayout>
 
