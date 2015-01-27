@@ -151,7 +151,8 @@ public class f_Outpost extends Fragment {
         private volatile boolean mRunning = true;
         private float clr;
         private Camera cam = new Camera();
-
+        Ships ships;
+        ArrayList arrayShips;
 
         @Override
         public void run() {
@@ -163,6 +164,11 @@ public class f_Outpost extends Fragment {
             paint.setColor(Color.LTGRAY);
             int cnt = 0;
 
+            arrayShips = new ArrayList();
+            for (int i = 0; i<12;i++) {
+                ships = new Ships();
+                arrayShips.add(ships);
+            }
             clr = 128;
             while (mRunning && !Thread.interrupted()) {
                 final Canvas canvas = view.lockCanvas(null);
@@ -175,6 +181,21 @@ public class f_Outpost extends Fragment {
 
                     Paint mShadow = new Paint();
                     mShadow.setShadowLayer(2.0f, 1.0f, 2.0f, 0xFFFFF000);
+
+
+                    paint.setStyle(Paint.Style.STROKE);
+                    for (int i = 0; i<arrayShips.size();i++){
+                        Ships s = (Ships) arrayShips.get(i);
+                        paint.setAlpha(i*5);
+                        s.update();
+                        int[] tmp = s.draw();
+                        canvas.drawPoint(tmp[0],tmp[1], paint);
+                        canvas.drawPoint(tmp[0]-2,tmp[0]+2, paint);
+                        canvas.drawPoint(tmp[0]+2,tmp[1]-1, paint);
+                        canvas.drawPoint(tmp[0]+1,tmp[1], paint);
+                        //Log.w("", String.valueOf(cons));
+
+                    }
 
 
 
@@ -201,16 +222,13 @@ public class f_Outpost extends Fragment {
                     canvas.drawCircle(mWidth / 2, mHeight - (mHeight/20), 8, paint);
 
 
-                    RectF rectF = new RectF(50, 20, 100, 80);
-
-                    canvas.drawArc (rectF, 90, 45, true, paint);
 
                     paint.setStyle(Paint.Style.FILL);
                     float alpha = 355;
                     for (int i = 0; i < 45; i++) {
                         cnt++;
-                        cnt %= 1720;
-                        if (cnt % 10== 1 && cnt < 79) {
+                        cnt %= 4720;
+                        if (cnt % 4== 1 && cnt < 79) {
                             p1.setAlpha(0);
                         } else {
                             p1.setAlpha((int) (alpha / (i + 1)));
@@ -218,17 +236,41 @@ public class f_Outpost extends Fragment {
 
                         canvas.save();
                         if(i<16) {
-                            canvas.rotate(45 - (i * 2));
+                            canvas.rotate(45 - (i * 5));
                         }else{
-                            canvas.rotate(45 + (i ));
+                            canvas.rotate(45 + (i));
                         }
-                        canvas.translate(mWidth/5, 0);
-                        canvas.scale((float)0.1,(float)0.1);
-                        canvas.drawRect(mWidth + (i * 120), (i * 120), mWidth / 23 + (i * 120), mHeight / 2 + (i * 120), p1);
+                        canvas.translate(mWidth/2, 0);
+                        canvas.scale((float)0.5,(float)0.1);
+                        canvas.drawRect(mWidth + (i * 4), (i * 4), mWidth / 23 + (i * 4), mHeight / 2 + (i * 4), p1);
 
                         canvas.restore();
                     }
 
+
+                    paint.setStyle(Paint.Style.FILL);
+                    alpha = 0;
+                    for (int i = 0; i < 20; i++) {
+                        cnt++;
+                        cnt %= 4720;
+                        if (cnt % 4== 1 && cnt < 79) {
+                            p1.setAlpha(0);
+                        } else {
+                            p1.setAlpha((int) (alpha * (i * 5)));
+                        }
+
+                        canvas.save();
+                        if(i<16) {
+                            canvas.rotate(45 - (i * 3));
+                        }else{
+                            canvas.rotate(45 - (i));
+                        }
+                        canvas.translate(mWidth/2, 0);
+                        canvas.scale((float)0.2,(float)0.1);
+                        canvas.drawRect(mWidth + (i * 4), (i * 4), mWidth / 23 + (i * 4), mHeight / 2 + (i * 4), p1);
+
+                        canvas.restore();
+                    }
 
 
 
@@ -254,7 +296,7 @@ public class f_Outpost extends Fragment {
                 try {
                     Thread.sleep(15);
                 } catch (InterruptedException e) {
-                    // Interrupted
+
                 }
             }
         }
@@ -265,6 +307,74 @@ public class f_Outpost extends Fragment {
         }
 
     }
+
+
+    public class Ships  {
+
+        private int sx, sy, ex, ey;
+        private boolean sxToRight, syToBottom;
+        private boolean exToRight, eyToBottom;
+        int strokeWidth = 5;
+        Paint p1 = new Paint();
+        int s;
+
+        Path path = new Path();
+        int[] inter = new int[2];
+        public Ships() {
+
+            this.p1.setColor(0xff63A088);
+            this.p1.setStrokeWidth(strokeWidth);
+            this.p1.setStyle(Paint.Style.STROKE);
+            this.sx = (int) (Math.random() * mWidth);
+            this.sy = (int) (Math.random() * mHeight);
+            this.ex = (int) (Math.random() * mWidth);
+            this.ey = (int) (Math.random() * mHeight);
+            s = (int) (Math.random()*7);
+        }
+
+        public int[] draw(){
+
+            return  inter;
+        }
+
+        public void update() {
+
+
+
+            if (this.exToRight) {
+                this.ex += 54*s;
+                if (ex >= mWidth * 2) {
+                    this.exToRight = false;
+                }
+            } else {
+                this.ex -= 34*s;
+                if (this.ex < -mWidth) {
+                    this.exToRight = true;
+                }
+            }
+
+            if (this.eyToBottom) {
+                this.ey+=120*s;
+                if (ey >= mWidth * 2) {
+                    this.eyToBottom = false;
+                }
+            } else {
+                this.ey-=54*s;
+                if (this.ey < -mWidth) {
+                    this.eyToBottom = true;
+                }
+            }
+
+
+
+            inter[0] = ex;
+            inter[1] = ey;
+        }
+
+    }
+
+
+
 
 
     private class CanvasListener implements TextureView.SurfaceTextureListener {

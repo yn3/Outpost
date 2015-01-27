@@ -89,6 +89,7 @@
         android:id="@+id/dc_url"
         android:layout_weight="1"
         android:layout_gravity="left"
+        android:layout_marginRight="165dp"
         android:layout_alignBottom="@+id/dc_date"
         android:layout_alignTop="@+id/dc_id"
         android:layout_alignParentLeft="true"

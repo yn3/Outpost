@@ -67,28 +67,31 @@ public class f_Storage extends ListFragment {
         root = Environment.getExternalStorageDirectory() + "/OutpostShare/";
         getDir(root);
         settings = getActivity().getSharedPreferences(SETTINGS, 0);
-        shareSize = (TextView)v.findViewById(R.id.shareSize);
+        shareSize = (TextView) v.findViewById(R.id.shareSize);
 
-        image = (ImageView)v.findViewById(R.id.storage_id);
-        final File loc = new File (Environment.getExternalStorageDirectory() + "/OutpostShare/id/id.png");
-
-        if(loc.exists()) {
+        image = (ImageView) v.findViewById(R.id.storage_id);
+        final File loc = new File(Environment.getExternalStorageDirectory() + "/OutpostShare/id/id.png");
+            if(loc.exists()){
+        if (loc.exists()) {
             Bitmap myBitmap = BitmapFactory.decodeFile(loc.getAbsolutePath());
             image.setImageBitmap(myBitmap);
         }
-        long sum =0;
+        long sum = 0;
         sum += loc.length();
-        String path = Environment.getExternalStorageDirectory().toString()+"/OutpostShare/share_out/";
+        String path = Environment.getExternalStorageDirectory().toString() + "/OutpostShare/share_out/";
         File f = new File(path);
+
+
         File file[] = f.listFiles();
 
-        for (int i=0; i < file.length; i++)
-        {
-             sum += file[i].length();
+        for (int i = 0; i < file.length; i++) {
+            sum += file[i].length();
         }
         String oo = getFileSize(sum);
 
         shareSize.setText(oo);
+
+    }
         image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

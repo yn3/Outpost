@@ -1,2 +1,0 @@
-# Outpost
-BT Android
